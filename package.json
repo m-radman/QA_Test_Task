@@ -9,6 +9,7 @@
   "author": "mradman",
   "license": "ISC",
   "devDependencies": {
+    "@4tw/cypress-drag-drop": "^2.2.5",
     "@types/jest": "^29.5.8",
     "cypress": "^13.5.1",
     "typescript": "^5.2.2"
