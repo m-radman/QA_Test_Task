@@ -7,6 +7,10 @@ class NavBar {
         rentalsLink: () => cy.get('[data-test="nav-rentals"]'),
         signInLink: () => cy.get('[data-test="nav-sign-in"]'),
         cartLink: () => cy.get('[data-test="nav-cart"]'),
-        cartBadge: () => cy.get('[data-test="cart-quantity"]')
+        cartBadge: () => cy.get('[data-test="cart-quantity"]'),
+        userMenu: () => cy.get("#user-menu"),
+        logoutUser: () => cy.get('[data-test="nav-sign-out"]')
     }
 }
+
+export default new NavBar()

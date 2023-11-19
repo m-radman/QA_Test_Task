@@ -11,6 +11,10 @@ class RegistrationPage {
         phoneField: () => cy.get("#phone"),
         emailField: () => cy.get("#email"),
         passwordField: () => cy.get("#password"),
-        registerBtn: () => cy.get('[data-test="register-submit"]')
+        registerBtn: () => cy.get('[data-test="register-submit"]'),
+        addressError: () => cy.get('[data-test="address-error"]'),
+        registerError: () => cy.get('[data-test="register-error"]')
     }
 }
+
+export default new RegistrationPage()

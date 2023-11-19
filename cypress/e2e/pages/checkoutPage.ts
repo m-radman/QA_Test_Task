@@ -9,3 +9,5 @@ class CheckoutPage {
         confirmationMsg: () => cy.get("#order-confirmation")
     }
 }
+
+export default new CheckoutPage()

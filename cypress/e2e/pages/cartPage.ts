@@ -6,3 +6,5 @@ class CartPage {
         checkoutBtn: () => cy.get('[data-test="proceed-1"]')
     }
 }
+
+export default new CartPage()

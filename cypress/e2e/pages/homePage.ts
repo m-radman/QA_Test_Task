@@ -9,3 +9,5 @@ class HomePage {
         toolCategories: () => cy.get("ul input")
     }
 }
+
+export default new HomePage()

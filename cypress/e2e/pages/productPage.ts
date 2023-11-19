@@ -6,3 +6,5 @@ class ProductPage {
         rentalSlider: () => cy.get("ngx-slider>span:nth-child(5)")
     }
 }
+
+export default new ProductPage()

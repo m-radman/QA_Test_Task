@@ -3,3 +3,5 @@ class RentalPage {
         products: () => cy.get("div.card")
     }
 }
+
+export default new RentalPage()
