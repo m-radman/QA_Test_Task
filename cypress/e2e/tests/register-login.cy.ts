@@ -14,7 +14,7 @@ describe("User registration and login tests", () => {
         })
     })
 
-    it("Try to register with ommited address field", () => {
+    it("Fail to register with ommited address field", () => {
         navBar.elements.signInLink().click()
         loginPage.elements.registerLink().click()
 
@@ -24,7 +24,7 @@ describe("User registration and login tests", () => {
         registrationPage.elements.postCodeField().type(registrationData.postcode)
         registrationPage.elements.cityField().type(registrationData.city)
         registrationPage.elements.stateField().type(registrationData.state)
-        registrationPage.elements.countryField().select("AX")
+        registrationPage.elements.countryField().select(registrationData.country)
         registrationPage.elements.phoneField().type(registrationData.phone)
         registrationPage.elements.emailField().type(registrationData.email)
         registrationPage.elements.passwordField().type(registrationData.password)
@@ -36,58 +36,30 @@ describe("User registration and login tests", () => {
     it("Register user successfully", () => {
         navBar.elements.signInLink().click()
         loginPage.elements.registerLink().click()
-
-        registrationPage.elements.firstNameField().type(registrationData.firstName)
-        registrationPage.elements.lastNameField().type(registrationData.lastName)
-        registrationPage.elements.dateOfBirthField().type(registrationData.dateOfBirth)
-        registrationPage.elements.addressField().type(registrationData.address)
-        registrationPage.elements.postCodeField().type(registrationData.postcode)
-        registrationPage.elements.cityField().type(registrationData.city)
-        registrationPage.elements.stateField().type(registrationData.state)
-        registrationPage.elements.countryField().select("AX")
-        registrationPage.elements.phoneField().type(registrationData.phone)
-        registrationPage.elements.emailField().type(registrationData.email)
-        registrationPage.elements.passwordField().type(registrationData.password)
-        registrationPage.elements.registerBtn().click()
+        cy.registerUser(registrationData)
 
         cy.url().should("contain", "/login")
     })
 
-    it("Try to register with already taken email", () => {
+    it("Fail to register with already taken email", () => {
         navBar.elements.signInLink().click()
         loginPage.elements.registerLink().click()
-
-        registrationPage.elements.firstNameField().type(registrationData.firstName)
-        registrationPage.elements.lastNameField().type(registrationData.lastName)
-        registrationPage.elements.dateOfBirthField().type(registrationData.dateOfBirth)
-        registrationPage.elements.addressField().type(registrationData.address)
-        registrationPage.elements.postCodeField().type(registrationData.postcode)
-        registrationPage.elements.cityField().type(registrationData.city)
-        registrationPage.elements.stateField().type(registrationData.state)
-        registrationPage.elements.countryField().select("AX")
-        registrationPage.elements.phoneField().type(registrationData.phone)
-        registrationPage.elements.emailField().type(registrationData.email)
-        registrationPage.elements.passwordField().type(registrationData.password)
-        registrationPage.elements.registerBtn().click()
+        cy.registerUser(registrationData)
 
         registrationPage.elements.registerError().should("be.visible")
     })
 
     it("Login user successfully", () => {
         navBar.elements.signInLink().click()
-        loginPage.elements.emailField().type(registrationData.email)
-        loginPage.elements.passwordField().type(registrationData.password)
-        loginPage.elements.loginBtn().click()
+        cy.loginUser(registrationData.email, registrationData.password)
 
         cy.url().should("contain", "/account")
         navBar.elements.userMenu().should("be.visible")
     })
 
-    it("Try to login with invalid password", () => {
+    it("Fail to login with invalid password", () => {
         navBar.elements.signInLink().click()
-        loginPage.elements.emailField().type(registrationData.email)
-        loginPage.elements.passwordField().type("12345")
-        loginPage.elements.loginBtn().click()
+        cy.loginUser(registrationData.email, "1234")
 
         loginPage.elements.loginError().should("be.visible")
         loginPage.elements.loginError().should("contain", "Invalid")
@@ -95,21 +67,10 @@ describe("User registration and login tests", () => {
 
     it("Account should lock after 4 unssuccesful attempts", () => {
         navBar.elements.signInLink().click()
-        loginPage.elements.emailField().type(registrationData.email)
-        loginPage.elements.passwordField().type("1111")
-        loginPage.elements.loginBtn().click()
-
-        loginPage.elements.passwordField().clear()
-        loginPage.elements.passwordField().type("123")
-        loginPage.elements.loginBtn().click()
-
-        loginPage.elements.passwordField().clear()
-        loginPage.elements.passwordField().type("1234")
-        loginPage.elements.loginBtn().click()
-
-        loginPage.elements.passwordField().clear()
-        loginPage.elements.passwordField().type("12345")
-        loginPage.elements.loginBtn().click()
+        cy.loginUser(registrationData.email, "1234")
+        cy.loginUser(registrationData.email, "12345")
+        cy.loginUser(registrationData.email, "123456")
+        cy.loginUser(registrationData.email, "1234567")
 
         loginPage.elements.loginError().should("contain", "Account locked")
     })

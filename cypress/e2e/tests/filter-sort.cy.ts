@@ -1,66 +1,53 @@
 import homePage from "../pages/homePage"
+import { SortOptions, ToolCategories } from "../helpers/models"
 import "@4tw/cypress-drag-drop"
 
 describe("Filter and sort products", () => {
-    const firstProductName = "Adjustable Wrench"
-    const lastProductName = "Wood Saw"
-    const highestPrice = "80.19"
-    const lowestPrice = "4.92"
 
     beforeEach(() => {
         cy.visit(Cypress.env("baseUrl"))
     })
 
     it("Sort products by name", () => {
-        homePage.elements.sortMenu().select("name,asc")
-        homePage.elements.productNamesList().first().should("contain.text", firstProductName)
-        homePage.elements.nextPage().click()
-        homePage.elements.nextPage().click()
-        homePage.elements.productNamesList().last().should("contain.text", lastProductName)
+        const firstProductName = "Adjustable Wrench"
+        const lastProductName = "Wood Saw"
+
+        homePage.sortProductNames(SortOptions.AtoZ, firstProductName, lastProductName)
 
         homePage.elements.previousPage().click()
         homePage.elements.previousPage().click()
 
-        homePage.elements.sortMenu().select("name,desc")
-        homePage.elements.productNamesList().first().should("contain.text", lastProductName)
-        homePage.elements.nextPage().click()
-        homePage.elements.nextPage().click()
-        homePage.elements.productNamesList().last().should("contain.text", firstProductName)
+        homePage.sortProductNames(SortOptions.ZtoA, lastProductName, firstProductName)
     })
 
     it("Sort products by price", () => {
-        homePage.elements.sortMenu().select("price,desc")
-        homePage.elements.productPricesList().first().should("contain.text", highestPrice)
-        homePage.elements.nextPage().click()
-        homePage.elements.nextPage().click()
-        homePage.elements.productPricesList().last().should("contain.text", lowestPrice)
+        const highestPrice = "80.19"
+        const lowestPrice = "4.92"
+
+        homePage.sortProductPrices(SortOptions.HighToLow, highestPrice, lowestPrice)
 
         homePage.elements.previousPage().click()
         homePage.elements.previousPage().click()
 
-        homePage.elements.sortMenu().select("price,asc")
-        homePage.elements.productPricesList().first().should("contain.text", lowestPrice)
-        homePage.elements.nextPage().click()
-        homePage.elements.nextPage().click()
-        homePage.elements.productPricesList().last().should("contain.text", highestPrice)
+        homePage.sortProductPrices(SortOptions.LowToHigh, lowestPrice, highestPrice)
     })
 
     it("Filter products using slider", () => {
-        homePage.elements.sliderLeft().move({ deltaX: 35, deltaY: 0 })
-        homePage.elements.sliderRight().move({ deltaX: -15, deltaY: 0 })
+        const minimumRangeOffset = 35
+        const maximumRangeOffset = -15
 
-        cy.wait(500)
+        const expectedMinValue = 21
+        const expectedMaxValue = 66
+
+        homePage.setPriceRange(minimumRangeOffset, maximumRangeOffset)
 
         homePage.elements.productPricesList().each((price) => {
-            expect(parseFloat(price.text().replace("$",""))).to.be.within(21, 66)
+            expect(parseFloat(price.text().replace("$",""))).to.be.within(expectedMinValue, expectedMaxValue)
         })
     })
 
     it("Filter products using search", () => {
-        homePage.elements.searchBar().type("hammer")
-        homePage.elements.searchSubmitBtn().click()
-
-        cy.wait(1000)
+        homePage.searchForProduct("hammer")
 
         homePage.elements.productNamesList().each((name) => {
             expect(name.text().toLowerCase()).to.contain("hammer")
@@ -68,29 +55,24 @@ describe("Filter and sort products", () => {
     })
 
     it("Filter products by category", () => {
-        homePage.elements.toolCategories().eq(2).check()
+        cy.contains("Bolt Cutters").should("be.visible")
+        cy.contains("Adjustable Wrench").should("not.exist")
+        cy.contains("Belt Sander").should("not.exist")
+
+        homePage.checkCategory(ToolCategories.wrench)
         cy.contains("Adjustable Wrench").should("be.visible")
         cy.contains("Belt Sander").should("not.exist")
-        cy.contains("Phillips Screwdriver").should("not.exist")
+        cy.contains("Bolt Cutters").should("not.exist")
 
-        homePage.elements.toolCategories().eq(2).uncheck()
-        homePage.elements.toolCategories().eq(7).check()
-        cy.contains("Adjustable Wrench").should("not.exist")
-        cy.contains("Belt Sander").should("be.visible")
-        cy.contains("Phillips Screwdriver").should("not.exist")
-
-        homePage.elements.toolCategories().eq(2).check()
+        homePage.checkCategory(ToolCategories.sander)
         cy.contains("Adjustable Wrench").should("be.visible")
         cy.contains("Belt Sander").should("be.visible")
-        cy.contains("Phillips Screwdriver").should("not.exist")
+        cy.contains("Bolt Cutters").should("not.exist")
     })
 
     it("Filtering by multiple parameters", () => {
-        homePage.elements.toolCategories().eq(0).check()
+        homePage.checkCategory(ToolCategories.hammer)
         homePage.elements.sliderLeft().move({ deltaX: 27, deltaY: 0 })
-        homePage.elements.sortMenu().select("name,desc")
-
-        homePage.elements.productNamesList().first().should("contain.text", "Sledgehammer")
-        homePage.elements.productNamesList().last().should("contain.text", "Fiberglass")
+        homePage.sortProductNames(SortOptions.ZtoA, "Sledgehammer", "Fiberglass", 1)
     })
 })

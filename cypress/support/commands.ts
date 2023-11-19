@@ -35,3 +35,36 @@
 //     }
 //   }
 // }
+declare global {
+    namespace Cypress {
+        interface Chainable {
+            loginUser(email: string, password: string): Chainable<void>
+            registerUser(registrationData: RegistrationForm): Chainable<void>
+        }
+    }
+}
+
+import registrationPage from "../e2e/pages/registrationPage"
+import loginPage from "../e2e/pages/loginPage"
+import { RegistrationForm } from "../e2e/helpers/models"
+
+Cypress.Commands.add("loginUser", (email: string, password: string) => {
+    loginPage.elements.emailField().clear().type(email)
+    loginPage.elements.passwordField().clear().type(password)
+    loginPage.elements.loginBtn().click()
+})
+
+Cypress.Commands.add("registerUser", (registrationData: RegistrationForm) => {
+    registrationPage.elements.firstNameField().type(registrationData.firstName)
+    registrationPage.elements.lastNameField().type(registrationData.lastName)
+    registrationPage.elements.dateOfBirthField().type(registrationData.dateOfBirth)
+    registrationPage.elements.addressField().type(registrationData.address)
+    registrationPage.elements.postCodeField().type(registrationData.postcode)
+    registrationPage.elements.cityField().type(registrationData.city)
+    registrationPage.elements.stateField().type(registrationData.state)
+    registrationPage.elements.countryField().select(registrationData.country)
+    registrationPage.elements.phoneField().type(registrationData.phone)
+    registrationPage.elements.emailField().type(registrationData.email)
+    registrationPage.elements.passwordField().type(registrationData.password)
+    registrationPage.elements.registerBtn().click()
+})
