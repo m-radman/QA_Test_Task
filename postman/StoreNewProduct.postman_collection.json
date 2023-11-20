@@ -1,0 +1,200 @@
+{
+	"info": {
+		"_postman_id": "634104d7-70f7-4b78-8ad1-565870444ce3",
+		"name": "StoreNewProduct",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25064890"
+	},
+	"item": [
+		{
+			"name": "All Products",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check number of products\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.data).to.have.length(9);\r",
+							"});\r",
+							"\r",
+							"pm.collectionVariables.set(\"productId\", pm.response.json().data[3].id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}",
+					"host": [
+						"{{baseUrl}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Single product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check product data\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.name).to.contain(\"Long Nose\");\r",
+							"    pm.expect(jsonData.stock).to.eql(0)\r",
+							"    pm.expect(jsonData.price).to.eql(14.24)\r",
+							"    pm.expect(jsonData.category.name).to.eql(\"Pliers\")\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/{{productId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"{{productId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check response values\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.name).to.contain(\"London\");\r",
+							"    pm.expect(jsonData.description).to.contain(\"Juniper forward\")\r",
+							"    pm.expect(jsonData.price).to.eql(25.65)\r",
+							"});\r",
+							"\r",
+							"pm.collectionVariables.set(\"newProductId\", pm.response.json().id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"London Dry Gin\",\r\n    \"description\": \"Juniper forward local gin\",\r\n    \"price\": 25.65,\r\n    \"category_id\": \"2213\",\r\n    \"brand_id\": \"2360\",\r\n    \"product_image_id\": 221,\r\n    \"is_location_offer\": 1,\r\n    \"is_rental\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}",
+					"host": [
+						"{{baseUrl}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New product",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check product data\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.name).to.contain(\"London\");\r",
+							"    pm.expect(jsonData.description).to.contain(\"Juniper forward\")\r",
+							"    pm.expect(jsonData.price).to.eql(25.65)\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/{{newProductId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"{{newProductId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "productId",
+			"value": ""
+		},
+		{
+			"key": "baseUrl",
+			"value": "https://api.practicesoftwaretesting.com/products",
+			"type": "string"
+		},
+		{
+			"key": "newProductId",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

@@ -4,7 +4,13 @@
   "description": "qa engineer task",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "cy:run:auth": "cypress run --spec 'cypress/e2e/tests/register-login.cy.ts'",
+    "cy:run:filters": "cypress run --spec 'cypress/e2e/tests/filter-sort.cy.ts'",
+    "cy:run:cart": "cypress run --spec 'cypress/e2e/tests/cart_add-remove.cy.ts'",
+    "cy:run:order": "cypress run --spec 'cypress/e2e/tests/complete_order.cy.ts'",
+    "postman:run": "newman run postman/StoreNewProduct.postman_collection.json"
   },
   "author": "mradman",
   "license": "ISC",
@@ -12,6 +18,7 @@
     "@4tw/cypress-drag-drop": "^2.2.5",
     "@types/jest": "^29.5.8",
     "cypress": "^13.5.1",
+    "newman": "^6.0.0",
     "typescript": "^5.2.2"
   }
 }
