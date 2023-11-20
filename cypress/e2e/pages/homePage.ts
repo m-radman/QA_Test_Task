@@ -1,3 +1,4 @@
+import productPage from "./productPage"
 import { SortOptions, ToolCategories } from "../helpers/models"
 import "@4tw/cypress-drag-drop"
 
@@ -48,6 +49,13 @@ class HomePage {
 
     checkCategory(category: ToolCategories) {
         this.elements.toolCategories().eq(category).check()
+        cy.wait(500)
+    }
+
+    addProductToCart(productIndex: number, quantity: number = 1) {
+        this.elements.productList().eq(productIndex).click()
+        productPage.elements.quantityField().clear().type(`${quantity}`)
+        productPage.elements.addToCartBtn().click()
     }
 }
 

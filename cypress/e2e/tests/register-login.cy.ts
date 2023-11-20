@@ -33,7 +33,7 @@ describe("User registration and login tests", () => {
         registrationPage.elements.addressError().should("be.visible")
     })
 
-    it("Register user successfully", () => {
+    it("Register user with valid data", () => {
         navBar.elements.signInLink().click()
         loginPage.elements.registerLink().click()
         cy.registerUser(registrationData)
@@ -49,7 +49,7 @@ describe("User registration and login tests", () => {
         registrationPage.elements.registerError().should("be.visible")
     })
 
-    it("Login user successfully", () => {
+    it("Login user with valid credentials", () => {
         navBar.elements.signInLink().click()
         cy.loginUser(registrationData.email, registrationData.password)
 
