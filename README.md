@@ -49,4 +49,4 @@ For running the test you need to take next steps:
          - `npm run cy:run:order` for the make an order test   
       - To run the Postman collection [^1] `npm run postman:run`
 ---
-[^1]: There is two versions for Storing new product test, because POST request for v4 version of the app can be completed successfully.
+[^1]: There is two versions of Storing new product test, because POST request for v4 version of the app can be completed successfully.
