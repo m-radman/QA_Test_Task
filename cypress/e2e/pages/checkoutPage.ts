@@ -6,7 +6,9 @@ class CheckoutPage {
         accountNumberField: () => cy.get("#account-number"),
         confirmBtn: () => cy.get('[data-test="finish"]'),
         successMsg: () => cy.contains("successful"),
-        confirmationMsg: () => cy.get("#order-confirmation")
+        confirmationMsg: () => cy.get("#order-confirmation"),
+        stateField: () => cy.get("#state"),
+        postcodeField: () => cy.get("#postcode")
     }
 }
 
