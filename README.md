@@ -60,4 +60,4 @@ To run tests locally please follow the steps:
     - To run the Postman collection using Newman (Postman's Collection Runner)  
       > npm run postman:run  
       
-    :pushpin: Note: There is two versions of _Storing new product_ test, because POST request in `v4` of the app is working well while POST request in other versions always gives back 500 Internal Server Error (ie in other versions POST just does not work, for some reason).
+    :pushpin: Note: There is two versions of _Storing new product_ test, because POST request in `v4` of the app is working well while POST request in `v5` always gives back 500 Internal Server Error.
