@@ -6,12 +6,12 @@ import rentalPage from "../pages/rentalPage"
 import { ToolCategories } from "../helpers/models"
 import "@4tw/cypress-drag-drop"
 
-describe("Add/Remove product to the cart", () => {
+describe("Add to Cart & Remove from Cart tests", () => {
     beforeEach(() => {
         cy.visit(Cypress.env("baseUrl"))
     })
 
-    it("Add products to and remove products from the cart", () => {
+    it("Add products then remove products from the cart", () => {
         homePage.checkCategory(ToolCategories.hammer)
         homePage.addProductToCart(2)
         navBar.elements.cartBadge().should("contain.text", "1")

@@ -16,6 +16,7 @@
   "license": "ISC",
   "devDependencies": {
     "@4tw/cypress-drag-drop": "^2.2.5",
+    "@faker-js/faker": "^8.3.1",
     "@types/jest": "^29.5.8",
     "cypress": "^13.5.1",
     "newman": "^6.0.0",

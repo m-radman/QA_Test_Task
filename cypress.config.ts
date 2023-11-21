@@ -11,5 +11,6 @@ export default defineConfig({
       // implement node event listeners here
     },
     specPattern: "cypress/e2e/tests/**/*.cy.ts",
+    chromeWebSecurity: false
   },
 });

@@ -3,13 +3,12 @@ import navBar from "../pages/common/navBar"
 import cartPage from "../pages/cartPage"
 import checkoutPage from "../pages/checkoutPage"
 
-describe("Complete an order", () => {
+describe("Complete an Order tests", () => {
     before(() => {
         cy.visit(Cypress.env("baseUrl"))
     })
 
     it("Make an order successfully", () => {
-
         homePage.addProductToCart(0)
         navBar.elements.cartLink().click()
         cartPage.elements.checkoutBtn().click()
@@ -18,6 +17,7 @@ describe("Complete an order", () => {
 
         checkoutPage.elements.proceedCheckoutBtn().click({ force: true })
         cy.wait(1500)
+        
         checkoutPage.elements.stateField().type("State")
         checkoutPage.elements.postcodeField().type("123E009")
         checkoutPage.elements.proceedCheckoutBtn().click({ force: true })

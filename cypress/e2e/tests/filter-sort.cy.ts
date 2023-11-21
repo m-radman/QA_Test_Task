@@ -2,7 +2,7 @@ import homePage from "../pages/homePage"
 import { SortOptions, ToolCategories } from "../helpers/models"
 import "@4tw/cypress-drag-drop"
 
-describe("Filter and sort products", () => {
+describe("Filter and Sort tests", () => {
 
     beforeEach(() => {
         cy.visit(Cypress.env("baseUrl"))
@@ -70,7 +70,7 @@ describe("Filter and sort products", () => {
         cy.contains("Bolt Cutters").should("not.exist")
     })
 
-    it("Filtering by multiple parameters", () => {
+    it("Filter products by multiple parameters", () => {
         homePage.checkCategory(ToolCategories.hammer)
         homePage.elements.sliderLeft().move({ deltaX: 27, deltaY: 0 })
         homePage.sortProductNames(SortOptions.ZtoA, "Sledgehammer", "Fiberglass", 1)

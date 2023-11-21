@@ -58,7 +58,9 @@ Cypress.Commands.add("registerUser", (registrationData: RegistrationForm) => {
     registrationPage.elements.firstNameField().type(registrationData.firstName)
     registrationPage.elements.lastNameField().type(registrationData.lastName)
     registrationPage.elements.dateOfBirthField().type(registrationData.dateOfBirth)
-    registrationPage.elements.addressField().type(registrationData.address)
+    if (registrationData.address != undefined) {
+        registrationPage.elements.addressField().type(registrationData.address)
+    }
     registrationPage.elements.postCodeField().type(registrationData.postcode)
     registrationPage.elements.cityField().type(registrationData.city)
     registrationPage.elements.stateField().type(registrationData.state)
