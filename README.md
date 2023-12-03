@@ -49,7 +49,7 @@ To run tests locally please follow the steps:
         > npm run cy:run
     - To run single test file:  
         - run user registration and user login tests
-            > npm run cy:run:auth
+          > npm run cy:run:auth
         - run products filtering and sorting tests
           > npm run cy:run:filters
         - run add/remove product to/from cart tests
